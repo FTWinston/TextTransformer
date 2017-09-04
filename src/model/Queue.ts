@@ -1,3 +1,5 @@
+import Action from './Action';
+
 class Queue {
     public actions: Action[] = [];
 
@@ -39,3 +41,5 @@ class Queue {
         return values.join('\n');
     }
 }
+
+export default Queue

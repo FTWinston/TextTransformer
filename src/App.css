@@ -15,7 +15,7 @@
 .App-header, .App-header__hidden {
   background-color: #222;
   color: white;
-  max-height: 10em;
+  max-height: 18em;
   transition: max-height 2s cubic-bezier(0, 1, 0, 1);
   overflow: hidden;
   display: flex;
@@ -31,10 +31,16 @@
 
 .App-header-hide {
   align-self: center;
-  margin-right: 2em;
+  margin: 0 2em 0 1em;
 }
 
 .App-toolbar {
+  font-size: large;
+  background-color: #aaa;
+  padding: 1em 0 1em 0;
+}
+
+.App-parameters {
   font-size: large;
   background-color: #ddd;
   padding: 1em 0 1em 0;

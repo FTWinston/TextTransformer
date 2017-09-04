@@ -1,3 +1,7 @@
+import Process from '../model/Process';
+import TextParameter from '../model/parameters/TextParameter';
+import BooleanParameter from '../model/parameters/BooleanParameter';
+
 class Replace extends Process {
     name = 'Replace';
     description = 'Replace all occurances of one value with another value.';
@@ -22,6 +26,9 @@ class Replace extends Process {
         let findRegex = new RegExp(find, ignoreCase ? 'gi' : 'g');
         return input.replace(findRegex, replace);
     }
+
+    static doNothing() {}
 }
 
-//ProcessMenu.global.add(new Replace());
+Process.all.push(new Replace());
+export default Replace;

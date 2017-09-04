@@ -1,3 +1,6 @@
+import Process from '../model/Process';
+import TextParameter from '../model/parameters/TextParameter';
+
 class PrefixSuffix extends Process {
     name = 'Prefix / Suffix';
     description = 'Add fixed values to the start and/or end of each line';
@@ -14,4 +17,5 @@ class PrefixSuffix extends Process {
     }
 }
 
-//ProcessMenu.perLine.add(new PrefixSuffix());
+Process.all.push(new PrefixSuffix());
+export default PrefixSuffix;
