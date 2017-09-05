@@ -1,34 +1,39 @@
-import Process from '../model/Process';
-import TextParameter from '../model/parameters/TextParameter';
-import BooleanParameter from '../model/parameters/BooleanParameter';
+import { Process } from '../model/Process';
+import * as Parameters from '../model/Parameters';
 
-class Replace extends Process {
+interface IParameters {
+    find: Parameters.TextParameter;
+    replace: Parameters.TextParameter;
+    ignoreCase: Parameters.BooleanParameter;
+    useRegularExpressions: Parameters.BooleanParameter;
+}
+
+class Replace extends Process<IParameters> {
     name = 'Replace';
     description = 'Replace all occurances of one value with another value.';
     perLine = false;
 
-    parameters = [
-        new TextParameter('Find'),
-        new TextParameter('Replace'),
-        new BooleanParameter('Ignore case'),
-        new BooleanParameter('Use regular expressions'),
-    ];
+    createParameters() {
+        return {
+            find: new Parameters.TextParameter('Find'),
+            replace: new Parameters.TextParameter('Replace'),
+            ignoreCase: new Parameters.BooleanParameter('Ignore case'),
+            useRegularExpressions: new Parameters.BooleanParameter('Use regular expressions'),
+        };
+    }
 
-    perform(input: string, params: [string, string, boolean, boolean]) {
-        let find = params[0], replace = params[1];
-        let ignoreCase = params[2], useRegex = params[3];
+    perform(input: string, params: IParameters) {
+        let find = params.find.value;
+        let replace = params.replace.value;
 
-        if (!useRegex) {
+        if (!params.useRegularExpressions.value) {
             find = find.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
             replace = replace.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
         }
         
-        let findRegex = new RegExp(find, ignoreCase ? 'gi' : 'g');
+        let findRegex = new RegExp(find, params.ignoreCase.value ? 'gi' : 'g');
         return input.replace(findRegex, replace);
     }
-
-    static doNothing() {}
 }
 
 Process.all.push(new Replace());
-export default Replace;

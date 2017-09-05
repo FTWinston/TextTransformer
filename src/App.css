@@ -16,7 +16,7 @@
   background-color: #222;
   color: white;
   max-height: 18em;
-  transition: max-height 2s cubic-bezier(0, 1, 0, 1);
+  transition: max-height 2s;
   overflow: hidden;
   display: flex;
 }
@@ -29,21 +29,41 @@
   flex-grow: 1;
 }
 
-.App-header-hide {
-  align-self: center;
-  margin: 0 2em 0 1em;
+.App-actionButtons {
+  width: 10em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.App-toolbar {
-  font-size: large;
-  background-color: #aaa;
+.App-processes, .App-parameters {
   padding: 1em 0 1em 0;
+  display: flex;
+}
+
+.App-processes {
+  background-color: #aaa;
 }
 
 .App-parameters {
-  font-size: large;
   background-color: #ddd;
-  padding: 1em 0 1em 0;
+}
+
+.App-processList, .App-parameterList {
+  flex-grow: 1;
+  font-size: large;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  align-content: flex-start;
+}
+
+.App-processList button.inactive {
+  color: #999;
 }
 
 .App-text {

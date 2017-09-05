@@ -1,15 +1,25 @@
-import Parameter from './parameters/Parameter';
+import { IAction, Action } from './Action';
 
-abstract class Process {
-    static all: Process[] = [];
+export interface IProcess {
+    readonly name: string;
+    readonly description: string;
+    readonly perLine: boolean;
+
+    createNewAction(): IAction;
+}
+
+export abstract class Process<TParams extends object> implements IProcess {
+    static all: IProcess[] = [];
 
     abstract readonly name: string;
     abstract readonly description: string;
     abstract readonly perLine: boolean;
 
-    abstract parameters: Parameter[];
-    
-    abstract perform(input: string, params: Array<string|boolean>): string;
-}
+    abstract createParameters(): TParams;
 
-export default Process;
+    createNewAction() {
+        return new Action<TParams>(this, this.createParameters());
+    }
+    
+    abstract perform(input: string, params: TParams): string;
+}

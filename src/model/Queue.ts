@@ -1,34 +1,35 @@
-import Action from './Action';
+import { IAction } from './Action';
 
-class Queue {
-    public actions: Action[] = [];
+export class Queue {
+    public actions: IAction[] = [];
 
-    perform(input: string) : string {
+    perform(input: string): string {
         let singleValue: string | null = input;
         let lineValues: string[] | null = null;
 
         for (let action of this.actions) {
-            if (action.process.perLine) {
+            if (action.perLine) {
                 if (lineValues === null) {
                     lineValues = this.split(singleValue as string);
                     singleValue = null;
                 }
 
-                for (let i=0; i<lineValues.length; i++)
-                    lineValues[i] = action.process.perform(lineValues[i], action.parameters);
-            }
-            else {
+                for (let i = 0; i < lineValues.length; i++) {
+                    lineValues[i] = action.perform(lineValues[i]);
+                }
+            } else {
                 if (singleValue === null) {
                     singleValue = this.combine(lineValues as string[]);
                     lineValues = null;
                 }
 
-                singleValue = action.process.perform(singleValue, action.parameters)
+                singleValue = action.perform(singleValue);
             }
         }
 
-        if (singleValue === null)
+        if (singleValue === null) {
             singleValue = this.combine(lineValues as string[]);
+        }
 
         return singleValue;
     }
@@ -41,5 +42,3 @@ class Queue {
         return values.join('\n');
     }
 }
-
-export default Queue

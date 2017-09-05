@@ -1,20 +1,19 @@
 import * as React from 'react';
 import './App.css';
 
-import Process from './model/Process';
-import Parameter from './model/parameters/Parameter';
+import { IAction } from './model/Action';
+import { Queue } from './model/Queue';
+import { IProcess, Process } from './model/Process';
+import { IParameter } from './model/Parameters';
 
-import Replace from './processes/Replace';
-import PrefixSuffix from './processes/PrefixSuffix';
-Replace.doNothing(); // without this use of the class, presumably Replace.ts isn't packaged and Process.all.push(new Replace()); in that file does nothing
-new PrefixSuffix();
+import './processes';
 
 const logo = require('./logo.svg');
 
 interface IAppState {
   showHeader: boolean;
   value: string;
-  displayProcess?: Process;
+  displayAction?: IAction;
 }
 
 class App extends React.Component<{}, IAppState> {
@@ -27,20 +26,7 @@ class App extends React.Component<{}, IAppState> {
   }
   render() {
     let headerClass = this.state.showHeader ? 'App-header' : 'App-header__hidden';
-    let selectedProcess = this.state.displayProcess;
-    let app = this;
-    let processes = Process.all.map(function(process: Process, index: number) {
-      let cname = process === selectedProcess ? 'active' : undefined;
-      return <button type="button" key={index} className={cname} onClick={e => app.selectProcess(process)}>{process.name}</button>;
-    });
-
-    let parameters = this.state.displayProcess === undefined ? undefined : (
-    <div className="App-parameters">
-      {this.state.displayProcess.parameters.map(function (param: Parameter, index: number) {
-        return param.renderInput(index);
-      })}
-    </div>
-    );
+    let showHeaderStyle = this.state.showHeader ? {visibility: 'hidden'} : undefined;
 
     return (
       <div className="App">
@@ -54,12 +40,19 @@ class App extends React.Component<{}, IAppState> {
               Everything's handled in your browser, without sending it over the web.
             </p>
           </div>
-          <button type="button" className="App-header-hide" onClick={() => this.hideHeader()}>Hide header</button>
+          <div className="App-actionButtons">
+            <button type="button" onClick={() => this.hideHeader()}>Hide header</button>
+          </div>
         </div>
-        <div className="App-toolbar">
-          {processes}
+        <div className="App-processes">
+          <div className="App-processList">
+            {this.renderProcessButtons()}
+          </div>
+          <div className="App-actionButtons">
+            <button type="button" onClick={() => this.showHeader()} style={showHeaderStyle}>Show header</button>
+          </div>
         </div>
-        {parameters}
+        {this.renderParameters()}
         <textarea
           className="App-text"
           autoComplete="off"
@@ -71,19 +64,67 @@ class App extends React.Component<{}, IAppState> {
       </div>
     );
   }
+  private renderProcessButtons() {
+    let selectedProcess = this.state.displayAction === undefined ? undefined : this.state.displayAction.process;
+    let app = this;
+
+    return Process.all.map(function(process: IProcess, index: number) {
+      let cname = selectedProcess === undefined ? undefined : process === selectedProcess ? 'active' : 'inactive';
+      return <button type="button" key={index} className={cname} onClick={e => app.selectProcess(process)}>{process.name}</button>;
+    });
+  }
+  private renderParameters() {
+    const parameters = this.state.displayAction === undefined ? undefined : this.state.displayAction.rawParameters;
+    if (parameters === undefined) {
+      return undefined;
+    }
+
+    let paramControls = Object.keys(parameters).map(function (key: string, index: number) {
+      let param = parameters[key] as IParameter;
+      return param.renderInput(index);
+    });
+
+    return (
+    <div className="App-parameters">
+      <div className="App-parameterList">
+        {paramControls}
+      </div>
+      <div className="App-actionButtons">
+        <button type="button" onClick={() => this.runOpenProcess()}>Run process</button>
+      </div>
+    </div>
+    );
+  }
   private textChanged(event: React.ChangeEvent<HTMLTextAreaElement>) {
     this.setState({value: event.target.value});
   }
-  /*
   private showHeader() {
     this.setState({showHeader: true});
   }
-  */
   private hideHeader() {
     this.setState({showHeader: false});
   }
-  private selectProcess(process: Process) {
-    this.setState({displayProcess: process === this.state.displayProcess ? undefined : process});
+  private selectProcess(process: IProcess) {
+    if (process === undefined || (this.state.displayAction !== undefined && process === this.state.displayAction.process)) {
+      this.setState({displayAction: undefined});
+      return;
+    }
+    
+    let action = process.createNewAction();
+    this.setState({displayAction: action});
+  }
+  private runOpenProcess() {
+    if (this.state.displayAction === undefined) {
+      return;
+    }
+
+    let queue = new Queue();
+    queue.actions.push(this.state.displayAction);
+    let output = queue.perform(this.state.value);
+
+    this.setState({
+      value: output,
+    });
   }
 }
 

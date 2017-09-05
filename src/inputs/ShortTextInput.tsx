@@ -1,24 +1,20 @@
 import * as React from 'react';
-import TextParameter from '../model/parameters/TextParameter';
 
-interface IShortTextData {
-  parameter: TextParameter;
+interface IShortTextProps {
+  name: string;
+  value: string;
+  valueChanged: (value: string) => void;
 }
 
-class ShortTextInput extends React.Component<IShortTextData, IShortTextData> {
-  constructor(props: IShortTextData) {
-    super(props);
-  }
+export class ShortTextInput extends React.Component<IShortTextProps, {}> {
   render() {
     return (
     <div className="field">
       <label>
-        <span>{this.props.parameter.name}</span>
-        <input type="text" autoComplete="off" className="value" />
+        <span>{this.props.name}</span>
+        <input type="text" autoComplete="off" className="value" defaultValue={this.props.value} onChange={e => this.props.valueChanged(e.target.value)} />
       </label>
     </div>
     );
   }
 }
-
-export default ShortTextInput;
