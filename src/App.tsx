@@ -3,14 +3,14 @@ import './App.css';
 import './Buttons.css';
 import './Parameters.css';
 
+import { AppHeader } from './AppHeader';
+import { ProcessSelection } from './ProcessSelection';
+import { ParameterDisplay } from './ParameterDisplay';
 import { IAction } from './model/Action';
 import { Queue } from './model/Queue';
-import { IProcess, Process } from './model/Process';
-import { IParameter } from './model/Parameters';
+import { IProcess } from './model/Process';
 
 import './processes';
-
-const logo = require('./logo.svg');
 
 interface IAppState {
   showHeader: boolean;
@@ -18,7 +18,7 @@ interface IAppState {
   displayAction?: IAction;
 }
 
-class App extends React.Component<{}, IAppState> {
+export class App extends React.Component<{}, IAppState> {
   constructor(props: {}) {
     super(props);
     this.state = {
@@ -27,35 +27,18 @@ class App extends React.Component<{}, IAppState> {
     };
   }
   render() {
-    let headerClass = this.state.showHeader ? 'App-header' : 'App-header__hidden';
-    let showHeaderStyle = this.state.showHeader ? {visibility: 'hidden'} : undefined;
+    let selectedProcess = this.state.displayAction === undefined ? undefined : this.state.displayAction.process;
 
     return (
       <div className="App">
-        <div className={headerClass} hidden={!this.state.showHeader}>
-          <img src={logo} className="App-logo" alt="logo" />
-          <div className="App-header-content">
-            <h2 className="App-title">Text Transformer</h2>
-            <p>
-              Easily manipulate, edit and transform text.
-              Queue up processes consisting of multiple steps, and save them for later.
-              Everything's handled in your browser, without sending it over the web.
-            </p>
-          </div>
-          <div className="App-actionButtons">
-            <a className="button" href="https://github.com/FTWinston/TextTransformer">View source</a>
-            <button type="button" onClick={() => this.hideHeader()}>Hide header</button>
-          </div>
-        </div>
-        <div className="App-processes">
-          <div className="App-processList">
-            {this.renderProcessButtons()}
-          </div>
-          <div className="App-actionButtons">
-            <button type="button" onClick={() => this.showHeader()} style={showHeaderStyle}>Show header</button>
-          </div>
-        </div>
-        {this.renderParameters()}
+        <AppHeader show={this.state.showHeader} hide={() => this.hideHeader()} />
+        <ProcessSelection
+          showHeader={this.state.showHeader}
+          selectedProcess={selectedProcess}
+          makeHeaderShow={() => this.showHeader()}
+          selectProcess={p => this.selectProcess(p)}
+        />
+        <ParameterDisplay action={this.state.displayAction} runCurrentAction={() => this.runOpenProcess()} />
         <textarea
           className="App-text"
           autoComplete="off"
@@ -67,37 +50,6 @@ class App extends React.Component<{}, IAppState> {
       </div>
     );
   }
-  private renderProcessButtons() {
-    let selectedProcess = this.state.displayAction === undefined ? undefined : this.state.displayAction.process;
-    let app = this;
-
-    return Process.all.map(function(process: IProcess, index: number) {
-      let cname = selectedProcess === undefined ? undefined : process === selectedProcess ? 'active' : 'inactive';
-      return <button type="button" key={index} className={cname} onClick={e => app.selectProcess(process)}>{process.name}</button>;
-    });
-  }
-  private renderParameters() {
-    const parameters = this.state.displayAction === undefined ? undefined : this.state.displayAction.rawParameters;
-    if (parameters === undefined) {
-      return undefined;
-    }
-
-    let paramControls = Object.keys(parameters).map(function (key: string, index: number) {
-      let param = parameters[key] as IParameter;
-      return param.renderInput(index);
-    });
-
-    return (
-    <div className="App-parameters">
-      <div className="App-parameterList">
-        {paramControls}
-      </div>
-      <div className="App-actionButtons">
-        <button type="button" onClick={() => this.runOpenProcess()}>Run process</button>
-      </div>
-    </div>
-    );
-  }
   private textChanged(event: React.ChangeEvent<HTMLTextAreaElement>) {
     this.setState({value: event.target.value});
   }
@@ -107,7 +59,7 @@ class App extends React.Component<{}, IAppState> {
   private hideHeader() {
     this.setState({showHeader: false});
   }
-  private selectProcess(process: IProcess) {
+  private selectProcess(process?: IProcess) {
     if (process === undefined || (this.state.displayAction !== undefined && process === this.state.displayAction.process)) {
       this.setState({displayAction: undefined});
       return;
@@ -130,5 +82,3 @@ class App extends React.Component<{}, IAppState> {
     });
   }
 }
-
-export default App;
