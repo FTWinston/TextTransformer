@@ -1,0 +1,22 @@
+.field {
+  white-space: nowrap;
+  margin: 0 0.5em;
+}
+
+.field label {
+  display: flex;
+  align-items: baseline;
+}
+
+.field-name {
+  margin-right: 0.25em;
+  font-size: large;
+}
+
+input[type="text"].field-value, textarea.field-value {
+  width: 30em;
+}
+
+textarea.field-value {
+  height: 3.25em;
+}

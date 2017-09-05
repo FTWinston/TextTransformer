@@ -11,8 +11,8 @@ export class CheckboxInput extends React.Component<ICheckboxProps, {}> {
     return (
     <div className="field">
       <label>
-        <span>{this.props.name}</span>
-        <input type="checkbox" className="value" defaultChecked={this.props.value} onChange={e => this.props.valueChanged(e.target.checked)} />
+        <span className="field-name">{this.props.name}</span>
+        <input type="checkbox" className="field-value" defaultChecked={this.props.value} onChange={e => this.props.valueChanged(e.target.checked)} />
       </label>
     </div>
     );

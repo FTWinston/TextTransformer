@@ -1,5 +1,7 @@
 import * as React from 'react';
 import './App.css';
+import './Buttons.css';
+import './Parameters.css';
 
 import { IAction } from './model/Action';
 import { Queue } from './model/Queue';
@@ -41,6 +43,7 @@ class App extends React.Component<{}, IAppState> {
             </p>
           </div>
           <div className="App-actionButtons">
+            <a className="button" href="https://github.com/FTWinston/TextTransformer">View source</a>
             <button type="button" onClick={() => this.hideHeader()}>Hide header</button>
           </div>
         </div>

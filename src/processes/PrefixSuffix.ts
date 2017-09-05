@@ -13,8 +13,8 @@ class PrefixSuffix extends Process<IParameters> {
 
     createParameters() {
         return {
-            prefix: new Parameters.TextParameter('Prefix'),
-            suffix: new Parameters.TextParameter('Suffix'),
+            prefix: new Parameters.TextParameter('Prefix', true),
+            suffix: new Parameters.TextParameter('Suffix', true),
         };
     }
 

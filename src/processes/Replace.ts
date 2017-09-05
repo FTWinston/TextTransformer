@@ -15,8 +15,8 @@ class Replace extends Process<IParameters> {
 
     createParameters() {
         return {
-            find: new Parameters.TextParameter('Find'),
-            replace: new Parameters.TextParameter('Replace'),
+            find: new Parameters.TextParameter('Find', false),
+            replace: new Parameters.TextParameter('Replace', false),
             ignoreCase: new Parameters.BooleanParameter('Ignore case'),
             useRegularExpressions: new Parameters.BooleanParameter('Use regular expressions'),
         };
