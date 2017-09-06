@@ -18,9 +18,9 @@ export class ProcessSelection extends React.Component<ISelectionProps, {}> {
     return (
       <div className="App-processes">
         <div className="App-processList">
-          {Process.all.map(function(process: IProcess, index: number) {
-            let cname = app.props.selectedProcess === undefined ? undefined : process === app.props.selectedProcess ? 'active' : 'inactive';
-            return <button type="button" key={index} className={cname} onClick={e => app.selectProcess(process)}>{process.name}</button>;
+          {Process.all.map(function(proc: IProcess, index: number) {
+            let cname = app.props.selectedProcess === undefined ? undefined : proc === app.props.selectedProcess ? 'active' : 'inactive';
+            return <button type="button" key={index} className={cname} onClick={e => app.selectProcess(proc)} title={proc.description}>{proc.name}</button>;
           })}
         </div>
         <div className="App-actionButtons">

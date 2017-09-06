@@ -16,7 +16,12 @@ export class TextInput extends React.Component<ITextProps, {}> {
     <div className="field">
       <label>
         <span className="field-name">{this.props.name}</span>
-        <SpecialCharacterInput singleLine={this.props.singleLine} className="field-value" defaultValue={this.props.value} valueChanged={this.props.valueChanged} />
+        <SpecialCharacterInput
+          singleLine={this.props.singleLine}
+          className="field-value"
+          defaultValue={this.props.value}
+          valueChanged={this.props.valueChanged}
+        />
       </label>
     </div>
     );
