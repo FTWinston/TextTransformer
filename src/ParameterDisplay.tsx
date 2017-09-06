@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { IAction } from './model/Action';
 import { IParameter } from './model/Parameters';
+import './ParameterDisplay.css';
 
 interface IParamProps {
   action?: IAction;
@@ -21,8 +22,10 @@ export class ParameterDisplay extends React.Component<IParamProps, {}> {
 
     return (
     <div className="App-parameters">
-      <div className="App-parameterList">
-        {paramControls}
+      <div className="App-parameters-listWrapper">
+        <div className="App-parameters-list">
+          {paramControls}
+        </div>
       </div>
       <div className="App-actionButtons">
         <button type="button" onClick={() => this.props.runCurrentAction()}>Run process</button>

@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { IProcess, Process } from './model/Process';
+import './ProcessSelection.css';
 
 interface ISelectionProps {
   showHeader: boolean;

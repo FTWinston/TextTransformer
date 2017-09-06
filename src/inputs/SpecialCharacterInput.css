@@ -1,0 +1,25 @@
+.specialCharacters {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+}
+
+.specialCharacters-controls {
+  background-color: #eee;
+  border-radius: 0 0 0.5em 0.5em;
+  border: solid #a9a9a9 1px;
+  border-top-width: 0;
+
+  display: flex;
+  justify-content: space-around;
+}
+
+.specialCharacters-controls a {
+  color: #666;
+  text-decoration: none;
+}
+
+.specialCharacters-controls a:hover {
+  text-decoration: underline;
+}

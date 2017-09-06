@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { ShortTextInput } from '../inputs/ShortTextInput';
-import { LongTextInput } from '../inputs/LongTextInput';
+import { TextInput } from '../inputs/TextInput';
 import { CheckboxInput } from '../inputs/CheckboxInput';
 
 export interface IParameter {
@@ -22,11 +21,7 @@ export class TextParameter extends Parameter<string> {
     }
     
     renderInput(key: number) {
-        if (this.singleLine) {
-            return <ShortTextInput key={key} name={this.name} value={this.value} valueChanged={value => this.value = value} />;
-        }
-        
-        return <LongTextInput key={key} name={this.name} value={this.value} valueChanged={value => this.value = value} />;
+        return <TextInput key={key} name={this.name} value={this.value} singleLine={this.singleLine} valueChanged={value => this.value = value} />;
     }
 }
 

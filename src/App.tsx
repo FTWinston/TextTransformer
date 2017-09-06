@@ -1,7 +1,6 @@
 import * as React from 'react';
 import './App.css';
 import './Buttons.css';
-import './Parameters.css';
 
 import { AppHeader } from './AppHeader';
 import { ProcessSelection } from './ProcessSelection';
