@@ -21,7 +21,7 @@ export class ProcessSelection extends React.Component<ISelectionProps, {}> {
 
     let recordButton = this.props.recordingProcess === undefined
       ? <button type="button" onClick={() => this.props.startRecording()}>Record new...</button>
-      : <button type="button" onClick={() => this.props.stopRecording()}>Save ({this.props.recordingProcess.actions.length})...</button>;
+      : <button type="button" className="recording" onClick={() => this.props.stopRecording()}>Save ({this.props.recordingProcess.actions.length})...</button>;
 
     return (
       <div className="App-processes">
