@@ -5,16 +5,16 @@ import './Buttons.css';
 import { AppHeader } from './AppHeader';
 import { ProcessSelection } from './ProcessSelection';
 import { ParameterDisplay } from './ParameterDisplay';
-import { IAction } from './model/Action';
+import { IExecutable, ISelectable } from './model/Interfaces';
 import { Queue } from './model/Queue';
-import { IProcess } from './model/Process';
 
 import './processes';
 
 interface IAppState {
   showHeader: boolean;
   value: string;
-  displayAction?: IAction;
+  displayExecutable?: IExecutable;
+  recording?: Queue;
 }
 
 export class App extends React.Component<{}, IAppState> {
@@ -26,18 +26,22 @@ export class App extends React.Component<{}, IAppState> {
     };
   }
   render() {
-    let selectedProcess = this.state.displayAction === undefined ? undefined : this.state.displayAction.process;
+    let selectedItem = this.state.displayExecutable === undefined ? undefined : this.state.displayExecutable.selectedItem;
 
     return (
       <div className="App">
         <AppHeader show={this.state.showHeader} hide={() => this.hideHeader()} />
         <ProcessSelection
-          showHeader={this.state.showHeader}
-          selectedProcess={selectedProcess}
-          makeHeaderShow={() => this.showHeader()}
-          selectProcess={p => this.selectProcess(p)}
+          selectedItem={selectedItem}
+          selectItem={p => this.selectProcess(p)}
+          recordingProcess={this.state.recording}
+          startRecording={() => this.startRecording()}
+          stopRecording={() => this.stopRecording()}
         />
-        <ParameterDisplay action={this.state.displayAction} runCurrentAction={() => this.runOpenProcess()} />
+        <ParameterDisplay
+          executable={this.state.displayExecutable}
+          runCurrentAction={() => this.runOpenProcess()}
+        />
         <textarea
           className="App-text"
           autoComplete="off"
@@ -52,32 +56,47 @@ export class App extends React.Component<{}, IAppState> {
   private textChanged(event: React.ChangeEvent<HTMLTextAreaElement>) {
     this.setState({value: event.target.value});
   }
-  private showHeader() {
-    this.setState({showHeader: true});
-  }
   private hideHeader() {
     this.setState({showHeader: false});
   }
-  private selectProcess(process?: IProcess) {
-    if (process === undefined || (this.state.displayAction !== undefined && process === this.state.displayAction.process)) {
-      this.setState({displayAction: undefined});
+  private selectProcess(process?: ISelectable) {
+    if (process === undefined) {
+      this.setState({displayExecutable: undefined});
       return;
     }
-    
-    let action = process.createNewAction();
-    this.setState({displayAction: action});
+    let executable = process.makeExecutable();
+    this.setState({displayExecutable: executable});
   }
   private runOpenProcess() {
-    if (this.state.displayAction === undefined) {
+    if (this.state.displayExecutable === undefined) {
       return;
     }
 
-    let queue = new Queue();
-    queue.actions.push(this.state.displayAction);
-    let output = queue.perform(this.state.value);
+    if (this.state.recording !== undefined) {
+      this.state.recording.actions.push(this.state.displayExecutable);
+    }
+
+    let runNow = new Queue();
+    runNow.actions.push(this.state.displayExecutable);
+    let output = runNow.perform(this.state.value);
 
     this.setState({
       value: output,
+    });
+  }
+  private startRecording() {
+    this.setState({
+      recording: new Queue(),
+    });
+  }
+  private stopRecording() {
+    let queue = this.state.recording;
+    if (queue !== undefined) {
+      // TODO: do something with this.state.recording queue
+    }
+
+    this.setState({
+      recording: undefined,
     });
   }
 }

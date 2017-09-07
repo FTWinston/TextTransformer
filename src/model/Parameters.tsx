@@ -1,11 +1,7 @@
 import * as React from 'react';
+import { IParameter } from './Interfaces';
 import { TextInput } from '../inputs/TextInput';
 import { CheckboxInput } from '../inputs/CheckboxInput';
-
-export interface IParameter {
-    readonly name: string;
-    renderInput(key: number): JSX.Element;
-}
 
 abstract class Parameter<T> implements IParameter {
     constructor(public readonly name: string, public value: T) {

@@ -1,21 +1,15 @@
-import { IProcess, Process } from './Process';
-
-export interface IAction {
-    name: string;
-    perLine: boolean;
-    process: IProcess;
-    rawParameters: object;
-    perform(value: string): string;
-}
+import { IAction } from './Interfaces';
+import { Process } from './Process';
 
 export class Action<TParams extends object> implements IAction {
-    constructor(readonly _process: Process<TParams>, public parameters: TParams) {
+    constructor(private process: Process<TParams>, public parameters: TParams) {
         
     }
     
+    get selectedItem() { return this.process; }
     get name() { return this.process.name; }
+    get description() { return this.process.description; }
     get perLine() { return this.process.perLine; }
-    get process() { return this._process; }
     get rawParameters() { return this.parameters as object; }
 
     perform(value: string) {

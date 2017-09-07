@@ -1,23 +1,17 @@
-import { IAction, Action } from './Action';
-
-export interface IProcess {
-    readonly name: string;
-    readonly description: string;
-    readonly perLine: boolean;
-
-    createNewAction(): IAction;
-}
+import { IProcess, ISelectable } from './Interfaces';
+import { Action } from './Action';
 
 export abstract class Process<TParams extends object> implements IProcess {
-    static all: IProcess[] = [];
+    static all: ISelectable[] = [];
 
     abstract readonly name: string;
     abstract readonly description: string;
     abstract readonly perLine: boolean;
+    readonly isEditable = false;
 
     abstract createParameters(): TParams;
 
-    createNewAction() {
+    makeExecutable() {
         return new Action<TParams>(this, this.createParameters());
     }
     

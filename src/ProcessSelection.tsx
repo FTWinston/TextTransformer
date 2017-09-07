@@ -1,40 +1,47 @@
 import * as React from 'react';
 
-import { IProcess, Process } from './model/Process';
+import { ISelectable } from './model/Interfaces';
+import { Process } from './model/Process';
+import { Queue } from './model/Queue';
+
 import './ProcessSelection.css';
 
 interface ISelectionProps {
-  showHeader: boolean;
-  makeHeaderShow: () => void;
-  selectedProcess?: IProcess;
-  selectProcess: (process?: IProcess) => void;
+  selectedItem?: ISelectable;
+  selectItem: (process?: ISelectable) => void;
+
+  startRecording: () => void;
+  stopRecording: () => void;
+  recordingProcess?: Queue;
 }
 
 export class ProcessSelection extends React.Component<ISelectionProps, {}> {
   render() {
-    let showHeaderStyle = this.props.showHeader ? {visibility: 'hidden'} : undefined;
-    let app = this;
+    let that = this;
+
+    let recordButton = this.props.recordingProcess === undefined
+      ? <button type="button" onClick={() => this.props.startRecording()}>Record new...</button>
+      : <button type="button" onClick={() => this.props.stopRecording()}>Save ({this.props.recordingProcess.actions.length})...</button>;
 
     return (
       <div className="App-processes">
         <div className="App-processList">
-          {Process.all.map(function(proc: IProcess, index: number) {
-            let cname = app.props.selectedProcess === undefined ? undefined : proc === app.props.selectedProcess ? 'active' : 'inactive';
-            return <button type="button" key={index} className={cname} onClick={e => app.selectProcess(proc)} title={proc.description}>{proc.name}</button>;
+          {Process.all.map(function(proc: ISelectable, index: number) {
+            let classes = that.props.selectedItem === undefined ? undefined : proc === that.props.selectedItem ? 'active' : 'inactive';
+            return <button type="button" key={index} className={classes} onClick={e => that.selectItem(proc)} title={proc.description}>{proc.name}</button>;
           })}
         </div>
         <div className="App-actionButtons">
-          <button type="button" onClick={() => this.props.makeHeaderShow()} style={showHeaderStyle}>Show header</button>
+          {recordButton}
         </div>
       </div>
     );
   }
-  private selectProcess(process: IProcess) {
-    if (process === undefined || (this.props.selectedProcess !== undefined && process === this.props.selectedProcess)) {
-      this.props.selectProcess(undefined);
-      return;
+  private selectItem(item?: ISelectable) {
+    if (item === this.props.selectedItem) {
+      item = undefined;
     }
     
-    this.props.selectProcess(process);
+    this.props.selectItem(item);
   }
 }

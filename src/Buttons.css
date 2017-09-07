@@ -8,12 +8,14 @@ button, a.button {
   cursor: pointer;
   text-decoration: none;
   font-size: 1em;
+  transition: color 0.5s, background-color 0.5s;
 }
 
 button:active, a.button:active {
-  background-color: #ccc;
+  background-color: #ccc !important;
 }
 
 button.inactive, a.button.inactive {
   color: #999;
+  background-color: #eee;
 }

@@ -1,7 +1,20 @@
-import { IAction } from './Action';
+import { IExecutable, ISelectable } from './Interfaces';
 
-export class Queue {
-    public actions: IAction[] = [];
+export class Queue implements IExecutable, ISelectable {
+    actions: IExecutable[] = [];
+    description: string = 'A user-created process';
+    readonly perLine: boolean = false;
+    readonly isEditable: true;
+    readonly rawParameters = {};
+    readonly selectedItem = this;
+
+    constructor(public name: string = 'New process') {
+
+    }
+
+    makeExecutable() {
+        return this;
+    }
 
     perform(input: string): string {
         let singleValue: string | null = input;
