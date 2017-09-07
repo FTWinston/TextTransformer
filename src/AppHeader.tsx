@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Button } from './Button';
 
 const logo = require('./logo.svg');
 
@@ -23,8 +24,8 @@ export class AppHeader extends React.Component<IHeaderProps, {}> {
             </p>
           </div>
           <div className="App-actionButtons">
-            <a className="button" href="https://github.com/FTWinston/TextTransformer">View source</a>
-            <button type="button" onClick={() => this.props.hide()}>Hide header</button>
+            <Button linkUrl="https://github.com/FTWinston/TextTransformer" text="View source" />
+            <Button onClick={() => this.props.hide()} text="Hide header" />
           </div>
         </div>
     );

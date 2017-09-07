@@ -1,0 +1,71 @@
+button, a.button, .buttons-dropdown {
+  background-color: white;
+  color: black;
+  border: solid 1px #666;
+  border-radius: 0.35em;
+  padding: 0.3em 0.7em;
+}
+
+button, a.button {
+  margin: 0.3em;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1em;
+  transition: color 0.5s, background-color 0.5s;
+}
+
+button:active, a.button:active {
+  background-color: #ccc !important;
+}
+
+button.inactive, a.button.inactive {
+  color: #999;
+  background-color: #eee;
+}
+
+.buttons {
+  display: flex;
+  align-items: stretch;
+  position: relative;
+}
+
+.buttons > button:not(.buttons-dropper), .buttons > .button:not(.buttons-dropper) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right-width: 0;
+  flex-shrink: 1;
+}
+
+.buttons-dropper {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left-color: #ccc;
+  color: #666;
+  flex-shrink: 0;
+  padding: 0.3em;
+}
+
+.buttons-dropdown {
+  position: absolute;
+  right: 0;
+  top: 3em;
+  display: flex;
+  flex-direction: column;
+}
+
+.buttons-dropdown:focus {
+  outline: none;
+}
+
+.buttons-dropdown button {
+  border: none;
+  border-radius: 0;
+}
+
+.buttons-dropdown button:hover {
+  text-decoration: underline;
+}
+
+.buttons-dropdown button + button {
+  border-top: solid 1px #ccc;
+}

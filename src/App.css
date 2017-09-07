@@ -42,7 +42,7 @@
   margin: 0;
 }
 
-.App-actionButtons button + button {
+.App-actionButtons > * + * {
   margin-top: 0.25em;
 }
 

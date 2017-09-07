@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Button } from './Button';
 import { IExecutable, IParameter } from './model/Interfaces';
 import './ParameterDisplay.css';
 
@@ -28,7 +29,7 @@ export class ParameterDisplay extends React.Component<IParamProps, {}> {
         </div>
       </div>
       <div className="App-actionButtons">
-        <button type="button" onClick={() => this.props.runCurrentAction()}>Run process</button>
+        <Button onClick={() => this.props.runCurrentAction()} text="Run process" />
       </div>
     </div>
     );
