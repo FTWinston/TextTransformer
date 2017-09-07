@@ -12,16 +12,24 @@ interface ISelectionProps {
 
   startRecording: () => void;
   stopRecording: () => void;
-  recordingProcess?: Queue;
+  isRecording: boolean;
+  recordedItem?: Queue;
 }
 
 export class ProcessSelection extends React.Component<ISelectionProps, {}> {
   render() {
     let that = this;
 
-    let recordButton = this.props.recordingProcess === undefined
-      ? <button type="button" onClick={() => this.props.startRecording()}>Record new...</button>
-      : <button type="button" className="recording" onClick={() => this.props.stopRecording()}>Save ({this.props.recordingProcess.actions.length})...</button>;
+    let recordButton: JSX.Element;
+
+    if (this.props.recordedItem === undefined) {
+      recordButton = <button type="button" onClick={() => this.props.startRecording()}>Record new...</button>;
+    } else if (this.props.isRecording) {
+      let steps = this.props.recordedItem.actions.length;
+      recordButton = <button type="button" className="recording" onClick={() => this.props.stopRecording()}>Stop recording ({steps} steps)</button>;
+    } else {
+      recordButton = <button type="button">Recorded item</button>; // TODO: show dropdown action list ... resume recording, run, save, clear
+    }
 
     return (
       <div className="App-processes">

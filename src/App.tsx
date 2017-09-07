@@ -14,7 +14,8 @@ interface IAppState {
   showHeader: boolean;
   value: string;
   displayExecutable?: IExecutable;
-  recording?: Queue;
+  recordedExecutable?: Queue;
+  recording: boolean;
 }
 
 export class App extends React.Component<{}, IAppState> {
@@ -23,6 +24,7 @@ export class App extends React.Component<{}, IAppState> {
     this.state = {
       showHeader: true,
       value: '',
+      recording: false,
     };
   }
   render() {
@@ -34,7 +36,8 @@ export class App extends React.Component<{}, IAppState> {
         <ProcessSelection
           selectedItem={selectedItem}
           selectItem={p => this.selectProcess(p)}
-          recordingProcess={this.state.recording}
+          isRecording={this.state.recording}
+          recordedItem={this.state.recordedExecutable}
           startRecording={() => this.startRecording()}
           stopRecording={() => this.stopRecording()}
         />
@@ -72,8 +75,8 @@ export class App extends React.Component<{}, IAppState> {
       return;
     }
 
-    if (this.state.recording !== undefined) {
-      this.state.recording.actions.push(this.state.displayExecutable);
+    if (this.state.recordedExecutable !== undefined) {
+      this.state.recordedExecutable.actions.push(this.state.displayExecutable);
     }
 
     let runNow = new Queue();
@@ -85,18 +88,25 @@ export class App extends React.Component<{}, IAppState> {
     });
   }
   private startRecording() {
-    this.setState({
-      recording: new Queue(),
-    });
-  }
-  private stopRecording() {
-    let queue = this.state.recording;
-    if (queue !== undefined) {
-      // TODO: do something with this.state.recording queue
+    let recordItem = this.state.recordedExecutable;
+    if (recordItem === undefined) {
+      recordItem = new Queue();
     }
 
     this.setState({
-      recording: undefined,
+      recordedExecutable: recordItem,
+      recording: true,
+    });
+  }
+  private stopRecording() {
+    let recordItem = this.state.recordedExecutable;
+    if (recordItem === undefined || recordItem.actions.length === 0) {
+      recordItem = undefined;
+    }
+
+    this.setState({
+      recording: false,
+      recordedExecutable: recordItem,
     });
   }
 }
