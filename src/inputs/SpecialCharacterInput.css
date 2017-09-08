@@ -1,25 +1,23 @@
 .specialCharacters {
   flex-grow: 1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: stretch;
+  position: relative;
 }
 
-.specialCharacters-controls {
-  background-color: #eee;
-  border-radius: 0 0 0.5em 0.5em;
-  border: solid #a9a9a9 1px;
-  border-top-width: 0;
-
-  display: flex;
-  justify-content: space-around;
+.specialCharacters input[type="text"], .specialCharacters textarea {
+  border-right-width: 0;
 }
 
-.specialCharacters-controls a {
+.specialCharacters-dropper {
   color: #666;
-  text-decoration: none;
+  margin: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
-.specialCharacters-controls a:hover {
-  text-decoration: underline;
+.specialCharacters-dropper_open {
+  border-bottom-right-radius: 0;
+  border-bottom-width: 0;
 }

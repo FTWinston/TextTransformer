@@ -15,3 +15,11 @@
 @keyframes recording {
   to { background-color: #faa; }
 }
+
+.App-processes button.recorded:not(.button_expanded) {
+  animation: 1250ms infinite alternate recorded;
+}
+
+@keyframes recorded {
+  to { color: #666; border-color: white;  }
+}

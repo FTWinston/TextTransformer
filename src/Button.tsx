@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './Button.css';
+import './Dropdown.css';
 
 type menuItem = [string, () => void];
 
@@ -54,6 +55,15 @@ export class Button extends React.Component<IButtonProps, IButtonState> {
       dropper = undefined;
     }
 
+    let classes = this.props.className;
+    if (this.state.showingDropdown) {
+      if (classes !== undefined) {
+        classes += ' button_expanded';
+      } else {
+        classes = 'button_expanded';
+      }
+    }
+
     let url = this.props.linkUrl;
     let mainButton: JSX.Element;
     if (url === undefined) {
@@ -62,14 +72,19 @@ export class Button extends React.Component<IButtonProps, IButtonState> {
           type="button"
           onClick={onClick}
           onFocusCapture={onFocus}
-          className={this.props.className}
+          className={classes}
           title={this.props.title}
         >
           {text}{dropper}
         </button>
       );
     } else {
-      let classes = this.props.className === undefined ? 'button' : 'button ' + this.props.className;
+      if (classes !== undefined) {
+        classes += ' button';
+      } else {
+        classes = 'button';
+      }
+
       mainButton = <a className={classes} href={this.props.linkUrl} title={this.props.title}>{text}</a>;
     }
 
@@ -99,11 +114,11 @@ export class Button extends React.Component<IButtonProps, IButtonState> {
 
     return (
     <div
-      className="buttons-dropdown"
+      className="dropdown"
       tabIndex={-1}
       ref={el => this.dropdown = el}
       onFocusCapture={e => this.focusDropdown()}
-      onBlurCapture={e => this.blurDropdown(e)}
+      onBlurCapture={e => this.blurDropdown()}
     >
       {buttons}
     </div>
@@ -117,7 +132,7 @@ export class Button extends React.Component<IButtonProps, IButtonState> {
     }
   }
 
-  private blurDropdown(event: React.FocusEvent<HTMLDivElement>) {
+  private blurDropdown() {
     this.closeTimeout = setTimeout(() => this.closeDropdown(), 0);
   }
   private closeDropdown() {

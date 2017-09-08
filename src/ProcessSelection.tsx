@@ -29,7 +29,7 @@ export class ProcessSelection extends React.Component<ISelectionProps, {}> {
       recordButton = <Button onClick={() => this.props.startRecording()} text="Record..." title="Click to start recording your actions" />;
     } else if (this.props.isRecording) {
       let steps = this.props.recordedItem.actions.length;
-      let stepsText = steps == 1 ? steps + ' step' : steps + ' steps';
+      let stepsText = steps === 1 ? steps + ' step' : steps + ' steps';
       recordButton = (
         <Button
           className="recording"
@@ -47,7 +47,7 @@ export class ProcessSelection extends React.Component<ISelectionProps, {}> {
       ];
       
       let steps = this.props.recordedItem.actions.length;
-      recordButton = <Button text="Recorded" dropdown={dropdownOptions} title={'Recorded process has ' + steps + ' steps'} />;
+      recordButton = <Button text="Recorded" className="recorded" dropdown={dropdownOptions} title={'Recorded process has ' + steps + ' steps'} />;
     }
 
     return (
