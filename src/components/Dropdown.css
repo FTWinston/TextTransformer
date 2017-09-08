@@ -25,6 +25,9 @@
   border: none;
   border-radius: 0;
   margin: 0 0.3em;
+}
+
+.dropdown button + button {
   border-top: solid 1px #ccc;
 }
 

@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { Dropdown } from './Dropdown';
 import './SpecialCharacterInput.css';
-import '../Dropdown.css';
+import './Dropdown.css';
 
 interface ISpecialCharacterProps {
   singleLine: boolean;
@@ -13,26 +14,26 @@ interface ISpecialCharacterState {
   showingDropdown: boolean;
 }
 
+type menuItem = [string, () => void];
+
 export class SpecialCharacterInput extends React.Component<ISpecialCharacterProps, ISpecialCharacterState> {
   private control: HTMLTextAreaElement | HTMLInputElement;
-  private dropdown: HTMLDivElement | null;
+  private dropdown: Dropdown;
   private closeTimeout: number | null;
+
+  private menuItems: menuItem[] = [
+    ['tab', () => this.apply('	')],
+    ['clear', () => this.clear()],
+  ];
 
   constructor(props: ISpecialCharacterProps) {
     super(props);
 
-    this.dropdown = null;
     this.closeTimeout = null;
 
     this.state = {
       showingDropdown: false,
     };
-  }
-  
-  componentDidUpdate(prevProps: ISpecialCharacterProps, prevState: ISpecialCharacterState) {
-    if (this.dropdown !== null) {
-      this.dropdown.focus();
-    }
   }
 
   render() {
@@ -62,25 +63,20 @@ export class SpecialCharacterInput extends React.Component<ISpecialCharacterProp
         type="button"
         className={dropperClasses}
         onClick={() => this.toggleDropdown()}
-        onFocusCapture={() => this.focusDropdown()}
+        onFocus={e => this.dropdown.focusDropdown()}
       >
         &#9660;
       </button>
     );
 
-    let dropdown = this.state.showingDropdown ? (
-    <div
-      className="dropdown"
-      tabIndex={-1}
-      ref={el => this.dropdown = el}
-      onFocusCapture={e => this.focusDropdown()}
-      onBlurCapture={e => this.blurDropdown()}
-    >
-      <button type="button" onClick={() => this.apply('	')}>tab</button>
-      <button type="button" onClick={() => this.apply('\r')} title="carriage return">cr</button>
-      <button type="button" onClick={() => this.apply('\n')} title="line feed">lf</button>
-    </div>
-    ) : undefined;
+    let dropdown = (
+      <Dropdown
+        visible={this.state.showingDropdown}
+        items={this.menuItems}
+        hide={() => this.closeDropdown()}
+        ref={el => { if (el !== null) { this.dropdown = el; }}}
+      />
+    );
 
     return (
       <div className="specialCharacters">
@@ -102,15 +98,9 @@ export class SpecialCharacterInput extends React.Component<ISpecialCharacterProp
     this.control.focus();
   }
 
-  private focusDropdown() {
-    if (this.closeTimeout !== null) {
-      clearTimeout(this.closeTimeout);
-      this.closeTimeout = null;
-    }
-  }
-
-  private blurDropdown() {
-    this.closeTimeout = setTimeout(() => this.closeDropdown(), 0);
+  private clear() {
+    this.control.value = '';
+    this.control.focus();
   }
 
   private closeDropdown() {

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Button } from './Button';
+import { Button } from './components/Button';
+import { DropdownButton } from './components/DropdownButton';
 
 import { ISelectable } from './model/Interfaces';
 import { Process } from './model/Process';
@@ -47,7 +48,7 @@ export class ProcessSelection extends React.Component<ISelectionProps, {}> {
       ];
       
       let steps = this.props.recordedItem.actions.length;
-      recordButton = <Button text="Recorded" className="recorded" dropdown={dropdownOptions} title={'Recorded process has ' + steps + ' steps'} />;
+      recordButton = <DropdownButton text="Recorded" className="recorded" dropdownItems={dropdownOptions} title={'Recorded process has ' + steps + ' steps'} />;
     }
 
     return (

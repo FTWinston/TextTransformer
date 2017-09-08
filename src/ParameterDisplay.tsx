@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button } from './Button';
+import { Button } from './components/Button';
 import { IExecutable, IParameter } from './model/Interfaces';
 import './ParameterDisplay.css';
 
