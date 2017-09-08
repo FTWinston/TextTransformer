@@ -13,6 +13,8 @@ interface ISelectionProps {
 
   startRecording: () => void;
   stopRecording: () => void;
+  clearRecording: () => void;
+  runRecording: () => void;
   isRecording: boolean;
   recordedItem?: Queue;
 }
@@ -24,18 +26,27 @@ export class ProcessSelection extends React.Component<ISelectionProps, {}> {
     let recordButton: JSX.Element;
 
     if (this.props.recordedItem === undefined) {
-      recordButton = <Button onClick={() => this.props.startRecording()} text="Record new..." />;
+      recordButton = <Button onClick={() => this.props.startRecording()} text="Record new..." title="Click to start recording your actions" />;
     } else if (this.props.isRecording) {
       let steps = this.props.recordedItem.actions.length;
-      recordButton = <Button className="recording" onClick={() => this.props.stopRecording()} text={'Stop recording (' + steps + ' steps)'} />;
+      recordButton = (
+        <Button
+          className="recording"
+          onClick={() => this.props.stopRecording()}
+          text={'Recording (' + steps + ')'}
+          title={'Click to stop recording (' + steps + ' steps recorded)'}
+        />
+      );
     } else {
       let dropdownOptions: [[string, () => void]] = [
-        ['Run', this.props.startRecording],
-        ['Save', this.props.startRecording],
+        ['Run', this.props.runRecording],
+        ['Save', () => { }], // TODO: add ability to save recorded queues
         ['Resume recording', this.props.startRecording],
-        ['Clear', this.props.startRecording],
+        ['Clear', this.props.clearRecording],
       ];
-      recordButton = <Button text="Recorded" dropdown={dropdownOptions} />;
+      
+      let steps = this.props.recordedItem.actions.length;
+      recordButton = <Button text="Recorded" dropdown={dropdownOptions} title={'Recorded process has ' + steps + ' steps'} />;
     }
 
     return (

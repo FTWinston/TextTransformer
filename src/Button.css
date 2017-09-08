@@ -30,19 +30,12 @@ button.inactive, a.button.inactive {
 }
 
 .buttons > button:not(.buttons-dropper), .buttons > .button:not(.buttons-dropper) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-right-width: 0;
-  flex-shrink: 1;
+  padding-right: 0.3em;
 }
 
 .buttons-dropper {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  border-left-color: #ccc;
   color: #666;
-  flex-shrink: 0;
-  padding: 0.3em;
+  margin-left: 0.25em;
 }
 
 .buttons-dropdown {

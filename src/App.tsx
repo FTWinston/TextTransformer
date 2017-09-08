@@ -39,6 +39,8 @@ export class App extends React.Component<{}, IAppState> {
           recordedItem={this.state.recordedExecutable}
           startRecording={() => this.startRecording()}
           stopRecording={() => this.stopRecording()}
+          clearRecording={() => this.clearRecording()}
+          runRecording={() => this.runRecordedExecutable()}
         />
         <ParameterDisplay
           executable={this.state.displayExecutable}
@@ -107,5 +109,19 @@ export class App extends React.Component<{}, IAppState> {
       recording: false,
       recordedExecutable: recordItem,
     });
+  }
+  private clearRecording() {
+    this.setState({
+      recording: false,
+      recordedExecutable: undefined,
+    });
+  }
+  private runRecordedExecutable() {
+    let queue = this.state.recordedExecutable;
+    if (queue === undefined) {
+      return;
+    }
+
+    queue.perform(this.state.value);
   }
 }
