@@ -49,6 +49,7 @@ input[type="text"].field-value, textarea.field-value {
   width: 30em;
   flex-grow: 1;
   border: solid #a9a9a9 1px;
+  padding-left: 0.3em;
 }
 
 textarea.field-value {
