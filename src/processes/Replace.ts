@@ -27,10 +27,11 @@ class Replace extends Process<IParameters> {
         let replace = params.replace.value;
 
         if (!params.useRegularExpressions.value) {
-            find = find.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-            replace = replace.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+            find = find
+            .replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+            .replace('	', '\t');
         }
-        
+
         let findRegex = new RegExp(find, params.ignoreCase.value ? 'gi' : 'g');
         return input.replace(findRegex, replace);
     }
