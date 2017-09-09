@@ -18,7 +18,7 @@ button:active, a.button:active {
   background-color: #ccc !important;
 }
 
-button.inactive, a.button.inactive {
+button.inactive, a.button.inactive, .button_expanded {
   color: #999;
   background-color: #eee;
 }

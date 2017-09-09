@@ -8,6 +8,10 @@
   align-content: flex-start;
 }
 
+.App-processList button.active {
+  border-color: white;
+}
+
 .App-processes button.recording {
   animation: 1250ms infinite alternate recording;
 }
