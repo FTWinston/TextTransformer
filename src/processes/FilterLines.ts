@@ -39,12 +39,10 @@ class FilterLines extends Process<IParameters> {
             find = '^' + find + '$';
         }
         
-        let findRegex = new RegExp(find, params.ignoreCase.value ? 'gi' : 'g');
+        let findRegex = new RegExp(find, params.ignoreCase.value ? 'i' : '');
 
-        let lines = input.split(/\n/);        
+        let lines = input.split(/\n/);
         for (let i = 0; i < lines.length; i++) {
-            findRegex.lastIndex = 0;
-            
             let line = lines[i];
             let remove = !findRegex.test(line);
             if (params.invertResults.value) {
