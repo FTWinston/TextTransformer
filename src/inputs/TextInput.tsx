@@ -9,8 +9,6 @@ interface ITextProps {
 }
 
 export class TextInput extends React.Component<ITextProps, {}> {
-  textArea: HTMLTextAreaElement;
-  
   render() {
     return (
     <div className="field">

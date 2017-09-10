@@ -2,6 +2,7 @@ import * as React from 'react';
 import { IParameter } from './Interfaces';
 import { TextInput } from '../inputs/TextInput';
 import { CheckboxInput } from '../inputs/CheckboxInput';
+import { ChoiceInput } from '../inputs/ChoiceInput';
 
 abstract class Parameter<T> implements IParameter {
     constructor(public readonly name: string, public value: T) {
@@ -37,6 +38,6 @@ export class ChoiceParameter extends Parameter<string> {
     }
 
     renderInput(key: number) {
-        return <div key={key}>yo</div>;
+        return <ChoiceInput key={key} name={this.name} value={this.value} options={this.options} valueChanged={value => this.value = value} />;
     }
 }
