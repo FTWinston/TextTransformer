@@ -27,34 +27,25 @@ class FilterLines extends Process<IParameters> {
     }
 
     perform(input: string, params: IParameters) {
-        let findText = params.containing.value;
+        let find = params.containing.value;
 
         if (!params.useRegularExpressions.value) {
-            findText = findText.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+            find = find
+            .replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+            .replace('	', '\t');
         }
 
         if (params.matchWholeLine.value) {
-            findText = '^' + findText + '$';
+            find = '^' + find + '$';
         }
         
-        let findRegex = new RegExp(findText, params.ignoreCase.value ? 'gi' : 'g');
+        let findRegex = new RegExp(find, params.ignoreCase.value ? 'gi' : 'g');
 
-        /* TODO: some weird bug causes this to fail to match certain words
-        Example text below fails to match the first 'you' when filtering on 'o'
-what		N	k
-do			Y	k
-you			N	!!!
-who			Y	k
-want		N	k
-mop			Y	k
-nah			N	k
-you			Y	k
-the noo		Y	k
-        */
         let lines = input.split(/\n/);        
         for (let i = 0; i < lines.length; i++) {
+            findRegex.lastIndex = 0;
+            
             let line = lines[i];
-
             let remove = !findRegex.test(line);
             if (params.invertResults.value) {
                 remove = !remove;
