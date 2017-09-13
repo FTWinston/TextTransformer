@@ -57,7 +57,7 @@ export class Dropdown extends React.Component<IDropdownProps, {}> {
   }
 
   private blurDropdown() {
-    this.closeTimeout = setTimeout(() => this.closeDropdown(), 0);
+    this.closeTimeout = window.setTimeout(() => this.closeDropdown(), 0);
   }
 
   private closeDropdown() {
