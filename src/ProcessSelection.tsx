@@ -20,7 +20,18 @@ interface ISelectionProps {
   recordedItem?: Queue;
 }
 
-export class ProcessSelection extends React.Component<ISelectionProps, {}> {
+interface ISelectionState {
+  processes: ISelectable[];
+}
+
+export class ProcessSelection extends React.Component<ISelectionProps, ISelectionState> {
+  constructor(props: ISelectionProps) {
+    super(props);
+
+    this.state = {
+      processes: Process.all.slice() as ISelectable[],
+    };
+  }
   render() {
     let that = this;
 
@@ -42,7 +53,7 @@ export class ProcessSelection extends React.Component<ISelectionProps, {}> {
     } else {
       let dropdownOptions: [[string, () => void]] = [
         ['Run now', this.props.runRecording],
-        ['Save process', () => { }], // TODO: add ability to save recorded queues
+        ['Save process', () => this.saveRecordedProcess()],
         ['Resume recording', this.props.startRecording],
         ['Clear', this.props.clearRecording],
       ];
@@ -54,7 +65,7 @@ export class ProcessSelection extends React.Component<ISelectionProps, {}> {
     return (
       <div className="App-processes">
         <div className="App-processList">
-          {Process.all.map(function(proc: ISelectable, index: number) {
+          {this.state.processes.map(function(proc: ISelectable, index: number) {
             let classes = that.props.selectedItem === undefined ? undefined : proc === that.props.selectedItem ? 'active' : 'inactive';
             return <Button key={index} className={classes} onClick={e => that.selectItem(proc)} title={proc.description} text={proc.name} />;
           })}
@@ -71,5 +82,22 @@ export class ProcessSelection extends React.Component<ISelectionProps, {}> {
     }
     
     this.props.selectItem(item);
+  }
+  private saveRecordedProcess() {
+    if (this.props.recordedItem !== undefined) {
+      let newItem = this.props.recordedItem;
+      let name = window.prompt('Enter a name for the recorded process', 'New process');
+      if (name === null) {
+        return;
+      }
+      
+      newItem.name = name;
+
+      this.setState((state: ISelectionState) => {
+        state.processes.push(newItem);
+      });
+    }
+
+    this.props.clearRecording();
   }
 }

@@ -38,11 +38,11 @@
   flex-shrink: 0;
 }
 
-.App-actionButtons button {
+.App-actionButtons button, .App-actionButtons a.button {
   margin: 0;
 }
 
-.App-actionButtons > * + * {
+.App-actionButtons > * + button, .App-actionButtons > * + a.button {
   margin-top: 0.25em;
 }
 

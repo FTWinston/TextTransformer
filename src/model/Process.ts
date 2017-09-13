@@ -1,8 +1,8 @@
-import { IProcess, ISelectable } from './Interfaces';
+import { IProcess } from './Interfaces';
 import { Action } from './Action';
 
 export abstract class Process<TParams extends object> implements IProcess {
-    static all: ISelectable[] = [];
+    static all: IProcess[] = [];
 
     abstract readonly name: string;
     abstract readonly description: string;
