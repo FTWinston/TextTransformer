@@ -15,4 +15,11 @@ export class Action<TParams extends object> implements IAction {
     perform(value: string) {
         return this.process.perform(value, this.parameters);
     }
+    
+    toJSON() {
+        return {
+            process: this.process.name,
+            params: this.parameters,
+        };
+    }
 }

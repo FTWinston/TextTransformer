@@ -14,6 +14,13 @@ export abstract class Process<TParams extends object> implements IProcess {
     makeExecutable() {
         return new Action<TParams>(this, this.createParameters());
     }
+
+    toJSON() {
+        return {
+            name: this.name,
+            fixed: true,
+        };
+    }
     
     abstract perform(input: string, params: TParams): string;
 }

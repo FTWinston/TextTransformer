@@ -16,6 +16,15 @@ export class Queue implements IExecutable, ISelectable {
         return this;
     }
 
+    toJSON() {
+        return {
+            name: this.name,
+            desc: this.description,
+            fixed: false,
+            actions: this.actions,
+        };
+    }
+
     perform(input: string): string {
         let singleValue: string | null = input;
         let lineValues: string[] | null = null;

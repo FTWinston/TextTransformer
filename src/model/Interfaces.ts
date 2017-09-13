@@ -17,6 +17,7 @@ export interface IExecutable extends INamedItem {
 
 export interface IProcess extends ISelectable {
     readonly perLine: boolean;
+    createParameters(): object;
 }
 
 export interface IAction extends IExecutable {
