@@ -94,12 +94,14 @@ export class SpecialCharacterInput extends React.Component<ISpecialCharacterProp
     
     this.control.value = start + val + end;
     this.control.selectionStart = this.control.selectionEnd = cursorPos + 1;
+    this.props.valueChanged(this.control.value);
 
     this.control.focus();
   }
 
   private clear() {
     this.control.value = '';
+    this.props.valueChanged(this.control.value);
     this.control.focus();
   }
 
