@@ -5,5 +5,6 @@ import './CountLines';
 import './FilterLines';
 import './DistinctLines';
 import './Substring';
+import './Truncate';
 import './Case';
 import './Sort';

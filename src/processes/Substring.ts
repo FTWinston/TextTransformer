@@ -16,8 +16,8 @@ class Substring extends Process<IParameters> {
 
     createParameters() {
         return {
-            position: new Parameters.NumericParameter('Position', true),
-            length: new Parameters.NumericParameter('Length', true),
+            position: new Parameters.NumericParameter('Position'),
+            length: new Parameters.NumericParameter('Length'),
             keep: new Parameters.ChoiceParameter('Output', [keepSpecified, removeSpecified]),
         };
     }

@@ -60,7 +60,7 @@ export class ChoiceParameter extends Parameter<string> {
 }
 
 export class NumericParameter extends Parameter<number|undefined> {
-    constructor(name: string, readonly singleLine: boolean, defaultValue: number | undefined = undefined) {
+    constructor(name: string, defaultValue: number | undefined = undefined) {
         super(name, defaultValue);
     }
     
