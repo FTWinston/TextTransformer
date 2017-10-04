@@ -10,6 +10,7 @@ export interface ISelectable extends INamedItem {
 
 export interface IExecutable extends INamedItem {
     perform(input: string): string;
+    clone(): IExecutable;
     readonly selectedItem: ISelectable;
     rawParameters: object;
     perLine: boolean;

@@ -16,6 +16,10 @@ export class Queue implements IExecutable, ISelectable {
         return this;
     }
 
+    clone() {
+        return this; // no parameters, so nothing that can change between instances
+    }
+
     toJSON() {
         return {
             name: this.name,

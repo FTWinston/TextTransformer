@@ -77,19 +77,16 @@ export class App extends React.Component<{}, IAppState> {
     }
 
     if (this.state.recordedExecutable !== undefined) {
-      this.state.recordedExecutable.actions.push(this.state.displayExecutable);
+      let clone = this.state.displayExecutable.clone();
+      this.state.recordedExecutable.actions.push(clone);
     }
 
     let runNow = new Queue();
     runNow.actions.push(this.state.displayExecutable);
     let output = runNow.perform(this.state.value);
 
-    // recreate the current executable, so that the recording queue definitely adds a new item next time, and not the same one again
-    let cloneExecutable = this.state.displayExecutable.selectedItem.makeExecutable();
-
     this.setState({
       value: output,
-      displayExecutable: cloneExecutable,
     });
   }
   private startRecording() {

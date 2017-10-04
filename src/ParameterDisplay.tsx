@@ -15,7 +15,6 @@ export class ParameterDisplay extends React.Component<IParamProps, {}> {
       return null;
     }
 
-    // TODO: move this into the Action class?
     let paramControls = Object.keys(parameters).map(function (key: string, index: number) {
       let param = parameters[key] as IParameter;
       return param.renderInput(index);
