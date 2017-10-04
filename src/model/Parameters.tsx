@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { IParameter } from './Interfaces';
 import { TextInput } from '../inputs/TextInput';
+import { NumericInput } from '../inputs/NumericInput';
 import { CheckboxInput } from '../inputs/CheckboxInput';
 import { ChoiceInput } from '../inputs/ChoiceInput';
 
@@ -55,5 +56,15 @@ export class ChoiceParameter extends Parameter<string> {
 
     renderInput(key: number) {
         return <ChoiceInput key={key} name={this.name} value={this.value} options={this.options} valueChanged={value => this.value = value} />;
+    }
+}
+
+export class NumericParameter extends Parameter<number|undefined> {
+    constructor(name: string, readonly singleLine: boolean, defaultValue: number | undefined = undefined) {
+        super(name, defaultValue);
+    }
+    
+    renderInput(key: number) {
+        return <NumericInput key={key} name={this.name} value={this.value} valueChanged={value => this.value = value} />;
     }
 }

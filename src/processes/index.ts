@@ -4,5 +4,6 @@ import './Reverse';
 import './CountLines';
 import './FilterLines';
 import './DistinctLines';
+import './Substring';
 import './Case';
 import './Sort';
