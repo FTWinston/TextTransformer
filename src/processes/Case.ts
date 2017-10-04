@@ -15,7 +15,7 @@ class Case extends Process<IParameters> {
 
     createParameters() {
         return {
-            case: new Parameters.ChoiceParameter('Case', [upper, lower, sentence]),
+            case: new Parameters.ChoiceParameter('Convert to', [upper, lower, sentence]),
             ignoreWords: new Parameters.TextParameter('Ignore words', true, 'a an and as at but by for from in into is near nor of on onto or the to with'),
         };
     }
