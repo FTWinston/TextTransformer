@@ -7,8 +7,10 @@ interface IParameters {
     matchWholeLine: Parameters.BooleanParameter;
     useRegularExpressions: Parameters.BooleanParameter;
     leaveBlanks: Parameters.BooleanParameter;
-    invertResults: Parameters.BooleanParameter;
+    keep: Parameters.ChoiceParameter;
 }
+
+const matchedLines = 'Matching lines only', unmatchedLines = 'Non-matching lines only';
 
 class FilterLines extends Process<IParameters> {
     name = 'Filter lines';
@@ -22,7 +24,7 @@ class FilterLines extends Process<IParameters> {
             matchWholeLine: new Parameters.BooleanParameter('Match whole line', false),
             useRegularExpressions: new Parameters.BooleanParameter('Use regular expressions'),
             leaveBlanks: new Parameters.BooleanParameter('Leave blank lines where data is removed', false),
-            invertResults: new Parameters.BooleanParameter('Invert results (remove lines containing text)', false),
+            keep: new Parameters.ChoiceParameter('Keep', [matchedLines, unmatchedLines]),
         };
     }
 
@@ -45,7 +47,7 @@ class FilterLines extends Process<IParameters> {
         for (let i = 0; i < lines.length; i++) {
             let line = lines[i];
             let remove = !findRegex.test(line);
-            if (params.invertResults.value) {
+            if (params.keep.value === unmatchedLines) {
                 remove = !remove;
             }
 
