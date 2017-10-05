@@ -123,6 +123,10 @@ export class App extends React.Component<{}, IAppState> {
       return;
     }
 
-    queue.perform(this.state.value);
+    let output = queue.perform(this.state.value);
+    
+    this.setState({
+      value: output,
+    });
   }
 }
